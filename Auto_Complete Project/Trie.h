@@ -8,7 +8,6 @@ class TrieNode
 	bool endOfWord;
 	int FrequencyWord;
 	TrieNode();
-	TrieNode(char c);
 	~TrieNode();
 };
 

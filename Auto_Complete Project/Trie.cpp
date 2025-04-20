@@ -5,9 +5,6 @@ TrieNode::TrieNode() {
 	endOfWord = false;
 	FrequencyWord = 0;
 }
-TrieNode::TrieNode(char c) {
-	children[c] = NULL;
-}
 TrieNode::~TrieNode() {
 
 }
@@ -19,7 +16,16 @@ Trie::~Trie() {
 	root = nullptr;
 }
 void Trie::insert(string Word) {
+	TrieNode* current = root;
 
+	for (char c : word) {
+		if (current->children.find(c) == current->children.end())
+			current->children[c] = new TrieNode();
+
+		current = current->children[c];
+	}
+	current->endOfWord = true;
+	current->FrequencyWord++;
 }
 void Trie::Delete(string Word) {
 
