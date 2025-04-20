@@ -32,10 +32,11 @@ void Trie::Delete(string Word) {
 }
 vector<string> Trie::defaultSearch(string prefix) {
 
+	return vector<string> v = {};
 }
 vector<string> Trie::bfsSearch(string prefix) {
-
+	return vector<string> v = {};
 }
 vector<string> Trie::bdsSearch(string prefix) {
-
+	return vector<string> v = {};
 }
