@@ -18,7 +18,7 @@ Trie::~Trie() {
 void Trie::insert(string Word) {
 	TrieNode* current = root;
 
-	for (char c : word) {
+	for (char c : Word) {
 		if (current->children.find(c) == current->children.end())
 			current->children[c] = new TrieNode();
 
@@ -30,13 +30,13 @@ void Trie::insert(string Word) {
 void Trie::Delete(string Word) {
 
 }
-vector<string> Trie::defaultSearch(string prefix) {
-
-	return vector<string> v = {};
-}
-vector<string> Trie::bfsSearch(string prefix) {
-	return vector<string> v = {};
-}
-vector<string> Trie::bdsSearch(string prefix) {
-	return vector<string> v = {};
-}
+//vector<string> Trie::defaultSearch(string prefix) {
+//
+//	return vector<string> v = {};
+//}
+//vector<string> Trie::bfsSearch(string prefix) {
+//	return vector<string> v = {};
+//}
+//vector<string> Trie::bdsSearch(string prefix) {
+//	return vector<string> v = {};
+//}
