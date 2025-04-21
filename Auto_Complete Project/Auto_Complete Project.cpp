@@ -7,11 +7,11 @@ using namespace std;
 
 int main()
 {
-	Trie t=fileFunctions::ReadFile("Dictionary.txt");
+	Trie t = fileFunctions::ReadFile("Dictionary.txt");
 	vector <pair<string, int>> v;
-	v=t.defaultSearch("prog");
-	for (int i = 0; i < v.size();i++) {
-		cout << v[i].first<<" "<<v[i].second << endl;
+	v = t.defaultSearch("program");
+	for (int i = 0; i < v.size(); i++) {
+		cout << v[i].first << " " << v[i].second << endl;
 	}
 
 	/*t.display(t.getRoot(), "");*/
