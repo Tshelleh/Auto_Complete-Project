@@ -1,4 +1,6 @@
 #include "Trie.h"
+#include <sstream>
+using namespace std;
 
 TrieNode::TrieNode() {
 	children = {};
@@ -152,5 +154,15 @@ vector<string> Trie::bfsSearch(string prefix) {
 
 
 //vector<string> Trie::bdsSearch(string prefix) {
+
+
+//vector<string> Trie::defaultSearch(string prefix) {
+//
+//	return vector<string> v = {};
+//}
+//vector<string> Trie::bfsSearch(string prefix) {
+//	return vector<string> v = {};
+//}
+//vector<string> Trie::dfsSearch(string prefix) {
 //	return vector<string> v = {};
 //}

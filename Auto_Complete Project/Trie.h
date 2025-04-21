@@ -26,7 +26,7 @@ public:
 	void Delete(string Word);
 	vector<pair<string,int>> defaultSearch(string prefix);
 	vector<string> bfsSearch(string prefix);
-	vector<string> bdsSearch(string prefix);
+	vector<string> dfsSearch(string prefix);
 	void display(TrieNode* node, string curr);
 	void AllWord(TrieNode* node, string curr, queue<pair<string, int>>& que);
 	TrieNode* getRoot();
