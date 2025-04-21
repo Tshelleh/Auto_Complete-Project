@@ -2,12 +2,22 @@
 //
 
 #include <iostream>
-#include "Trie.h"
+#include "fileFunctions.h"
 using namespace std;
 
 int main()
 {
+	Trie t=fileFunctions::ReadFile("Dictionary.txt");
+	
+	t.insert("dog", 1);
+	t.insert("dog", 1);
+	t.insert("cat", 1);
+	t.insert("car", 1);
+	t.insert("program", 1);
 
-   
+	t.display(t.getRoot(), "");
+
+	/*fileFunctions::WriteFile("Dictionary.txt",t);*/
+	return 0;
 }
 
