@@ -3,6 +3,7 @@
 #include<vector>
 #include<string>
 #include<queue>
+#include<stack>
 using namespace std;
 class TrieNode
 {  public:
@@ -23,12 +24,14 @@ public:
 	/*void insert(string Word);*/
 	void insert(string Word,int freq);
 	void Delete(string Word);
-	vector<string> defaultSearch(string prefix);
+	vector<pair<string,int>> defaultSearch(string prefix);
 	vector<string> bfsSearch(string prefix);
 	vector<string> bdsSearch(string prefix);
 	void display(TrieNode* node, string curr);
-	void AllWord(TrieNode* node, string curr, queue<string>& que);
+	void AllWord(TrieNode* node, string curr, queue<pair<string, int>>& que);
 	TrieNode* getRoot();
-
+	TrieNode* getPrefixNode(string& prefix);
+	void The_Most_freq_que(vector<pair<string,int>>& Words);
+	static bool compare(pair<string,int> a, pair<string, int> b);
 };
 

@@ -8,14 +8,13 @@ using namespace std;
 int main()
 {
 	Trie t=fileFunctions::ReadFile("Dictionary.txt");
-	
-	t.insert("dog", 1);
-	t.insert("dog", 1);
-	t.insert("cat", 1);
-	t.insert("car", 1);
-	t.insert("program", 1);
+	vector <pair<string, int>> v;
+	v=t.defaultSearch("prog");
+	for (int i = 0; i < v.size();i++) {
+		cout << v[i].first<<" "<<v[i].second << endl;
+	}
 
-	t.display(t.getRoot(), "");
+	/*t.display(t.getRoot(), "");*/
 
 	/*fileFunctions::WriteFile("Dictionary.txt",t);*/
 	return 0;

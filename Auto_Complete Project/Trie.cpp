@@ -16,6 +16,7 @@ Trie::~Trie() {
 	root = nullptr;
 }
 //void Trie::insert(string Word) {
+//  transform(Word.begin(), Word.end(), Word.begin(), ::tolower);
 //	TrieNode* current = root;
 //
 //	for (char c : Word) {
@@ -28,6 +29,8 @@ Trie::~Trie() {
 //	current->FrequencyWord++;
 //}
 void Trie::insert(string Word, int freq) {
+
+    transform(Word.begin(), Word.end(), Word.begin(), ::tolower);
 	TrieNode* current = root;
 
 	for (char c : Word) {
@@ -51,10 +54,9 @@ void Trie::display(TrieNode* node, string curr) {
 		display(pair.second, curr + pair.first);
 	}
 }
-void Trie::AllWord(TrieNode* node, string curr, queue<string>& que) {
+void Trie::AllWord(TrieNode* node, string curr, queue<pair<string,int>>& que) {
 	if (node->endOfWord) {
-		string str = curr + " " + to_string(node->FrequencyWord);
-		que.push(str);
+        que.push({ curr, node->FrequencyWord });
 	}
 	for (auto& pair : node->children) {
 		AllWord(pair.second, curr + pair.first,que);
@@ -64,13 +66,91 @@ TrieNode* Trie::getRoot() {
 	return root;
 }
 
-//vector<string> Trie::defaultSearch(string prefix) {
-//
-//	return vector<string> v = {};
-//}
-//vector<string> Trie::bfsSearch(string prefix) {
-//	return vector<string> v = {};
-//}
+vector<pair<string,int>> Trie::defaultSearch(string prefix) {
+	vector<pair<string,int>> Most_freq ;
+	TrieNode* prefixNode = getPrefixNode(prefix);
+    if (!prefixNode) {
+        return Most_freq;
+    }
+    string lowerPrefix = prefix;
+    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+    queue<pair<string,int>> q;
+    AllWord(prefixNode, lowerPrefix , q);
+    while (!q.empty()) {
+        Most_freq.push_back({q.front().first,q.front().second });
+        q.pop();
+    }
+    The_Most_freq_que(Most_freq);
+
+	return Most_freq;
+}
+TrieNode* Trie::getPrefixNode(string& prefix) {
+    for (char c : prefix) {
+        if (!isalpha(c)) {
+            cout << "Invalid prefix: " << prefix << ". Only alphabetic characters allowed.\n";
+            return nullptr;
+        }
+    }
+    
+    string lowerPrefix = prefix;
+    //case sensetive
+    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+    TrieNode* current = root;
+    for (char c : lowerPrefix) {
+        if (current->children.find(c) == current->children.end()) {
+            return nullptr;
+        }
+        current = current->children[c];
+    }
+    return current;
+}
+
+void Trie::The_Most_freq_que(vector<pair<string,int>>& Words) {
+    sort(Words.begin(), Words.end(),compare);
+}
+bool Trie::compare(pair<string,int> a, pair<string,int> b) {
+    if (a.second == b.second) 
+        return a.first < b.first;
+    return a.second > b.second;
+    }
+
+vector<string> Trie::bfsSearch(string prefix) {
+    vector<string> suggestions;
+
+    TrieNode* prefixNode = getPrefixNode(prefix);
+    if (!prefixNode) {
+        return suggestions;
+    }
+
+    string lowerPrefix = prefix;
+    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+    queue<pair<TrieNode*, string>> q;
+    q.push({ prefixNode, lowerPrefix });
+
+    while (!q.empty()) {
+        auto pair = q.front();
+        TrieNode* current = pair.first;
+        string word = pair.second;
+        q.pop();
+
+        if (current->endOfWord) {
+            suggestions.push_back(word);
+        }
+
+        for (char c = 'a'; c <= 'z'; ++c) {
+            if (current->children.find(c) != current->children.end()) {
+                q.push({ current->children[c], word + c });
+            }
+        }
+    }
+
+    return suggestions;
+}
+
+
 //vector<string> Trie::bdsSearch(string prefix) {
 //	return vector<string> v = {};
 //}
