@@ -44,9 +44,6 @@ void Trie::insert(string Word, int freq) {
     current->endOfWord = true;
     current->FrequencyWord += freq;
 }
-void Trie::Delete(string Word) {
-
-}
 void Trie::display(TrieNode* node, string curr) {
     if (node->endOfWord) {
         string str = curr + " " + to_string(node->FrequencyWord);
@@ -172,18 +169,91 @@ vector<string> Trie::bfsSearch(string prefix) {
 
     return suggestions;
 }
+void Trie::Delete(string Word) {
+    stack<pair<TrieNode*, char>> word1;
+    TrieNode* ptr = root;
+    for (char c : Word) {
+        word1.push({ ptr, c }); // push words letter in stack  
+        ptr = ptr->children[c]; // move the ptr from root to the letter added until last letter
+    }
 
+    while (!word1.empty()) {
+        TrieNode* ptr2 = word1.top().first; // pre last elememt as the parent
+        char c = word1.top().second; // last element as the child
+        ptr = ptr2;
+        ptr = ptr->children[c]; // point to last letter in stack
+        word1.pop();
+        if (ptr->children.empty() && !ptr->endOfWord) {
 
-//vector<string> Trie::bdsSearch(string prefix) {
-
-
-//vector<string> Trie::defaultSearch(string prefix) {
-//
-//	return vector<string> v = {};
-//}
-//vector<string> Trie::bfsSearch(string prefix) {
-//	return vector<string> v = {};
-//}
+            ptr->children.erase(c); // delete letters child that has no children
+        }
+        else {
+            ptr->endOfWord = false;
+            break;
+        }
+    }
+}
+void Trie::trieMenu() {
+    int choice , freq;
+    cout << "1: Search\n"
+        "2: Display Dectionary\n"
+        "3: Delete word\n"
+        "4: Add word\n"
+        "5: Exit\n"
+        "==> ";
+    cin >> choice;
+    string word_prefix;
+    switch (choice)
+    {
+    case 1:
+        searchMenu();
+        break;
+    case 2:
+        //display();
+    case 3:
+        word_prefix = "";
+        cout << "Enter a word or a prefix to delete\n=>";
+        cin >> word_prefix;
+        Delete(word_prefix);
+        break;
+    case 4:
+        word_prefix = "";
+        cout << "Enter the word\n";
+        cin >> word_prefix;
+        cout << "Enter the frequency\n";
+        cin >> freq;
+        insert(word_prefix , freq);
+        break;
+    default:
+        break;
+    }
+}
+void Trie::searchMenu() {
+    string prefix;
+    cout << "Start Search:....";
+    cin >> prefix;
+    int choice;
+    cout << "1: Default Search\n"
+        "2: BFS Search"
+        "3: DFS Search";
+    cin >> choice;
+    switch (choice) 
+    {
+        //We have to put error hundling method here before take send the prefix as a parameter
+        case 1:
+            defaultSearch(prefix);
+        case 2:
+            bfsSearch(prefix);
+        case 3:
+            //dfsSearch();
+        default:
+            cout << "Enter a valid number";
+    }
+}
+bool Trie::isFind(string word) {
+    TrieNode* node = getPrefixNode(word);
+    return node && node->endOfWord; //if the returned ptr not null & the node is an end of word
+}
 //vector<string> Trie::dfsSearch(string prefix) {
 //	return vector<string> v = {};
 //}

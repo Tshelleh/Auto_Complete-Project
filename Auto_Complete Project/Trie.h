@@ -35,5 +35,8 @@ public:
 	TrieNode* getPrefixNode(string& prefix);
 	void The_Most_freq_que(vector<pair<string, int>>& Words);
 	static bool compare(pair<string, int> a, pair<string, int> b);
+	void trieMenu();
+	void searchMenu();
+	bool isFind(string);
 };
 
