@@ -25,7 +25,6 @@
  Trie fileFunctions::ReadFile(string FileName) {
 	Trie diction;
 
-	
 		ifstream file(FileName);
 	if (file.is_open()) {
 		string line;

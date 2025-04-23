@@ -38,5 +38,6 @@ public:
 	void trieMenu();
 	void searchMenu();
 	bool isFind(string);
+	string HandleUnfoundPrefix(string);
 };
 

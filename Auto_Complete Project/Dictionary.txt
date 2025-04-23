@@ -8,3 +8,6 @@ priority 17
 problem 65
 prediction 5
 proceed 40
+cat 45
+care 20
+car 10
