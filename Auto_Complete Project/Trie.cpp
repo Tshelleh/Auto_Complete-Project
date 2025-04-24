@@ -265,6 +265,16 @@ bool Trie::isFind(string word) {
     TrieNode* node = getPrefixNode(word);
     return node && node->endOfWord; //if the returned ptr not null & the node is an end of word
 }
+
+void Trie::handleNotFoundPrefix(string word) {
+    transform(word.begin(), word.end(), word.begin(), ::tolower);
+    searchCount[word]++;
+
+    if (searchCount[word] == 3) {
+        insert(word, 1);
+        cout << word << "added to suggestions after 3 searches!\n";
+    }
+}
 //vector<string> Trie::dfsSearch(string prefix) {
 //	return vector<string> v = {};
 //}
