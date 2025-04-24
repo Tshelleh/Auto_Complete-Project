@@ -171,12 +171,14 @@ vector<string> Trie::bfsSearch(string prefix) {
 }
 bool Trie::Delete(string Word) {
     if (!isFind(Word)) return false;
+
     stack<pair<TrieNode*, char>> wordStack;
     TrieNode* ptr = root;
     for (char c : Word) {
         wordStack.push({ ptr, c }); // push words letter in stack  
         ptr = ptr->children[c]; // move the ptr from root to the letter added until last letter
     }
+
     while (!wordStack.empty()) {
         TrieNode* ptr2 = wordStack.top().first; // pre last elememt as the parent
         char c = wordStack.top().second; // last element as the child
@@ -230,12 +232,12 @@ void Trie::trieMenu() {
     default:
         break;
     }
-    cout << endl << "Do you want to continue? Write 'y' or 'Y' if yes" << endl;
+    /*cout << endl << "Do you want to continue? Write 'y' or 'Y' if yes" << endl;
     cin >> again;
     if (again == 'y' || again == 'Y')
     {
         trieMenu();
-    }
+    }*/
 }
 void Trie::searchMenu() {
     string prefix;
