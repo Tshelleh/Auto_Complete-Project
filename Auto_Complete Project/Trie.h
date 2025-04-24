@@ -19,6 +19,8 @@ class Trie
 {
 
 	TrieNode* root;
+	unordered_map<string, int> searchCount; 
+
 public:
 	Trie();
 	~Trie();
@@ -26,6 +28,7 @@ public:
 	void insert(string Word, int freq);
 	bool Delete(string Word);
 	vector<pair<string, int>> defaultSearch(string prefix);
+	void handleNotFoundPrefix(string word);
 	vector<string> bfsSearch(string prefix);
 	vector<string> bdsSearch(string prefix);
 	void display(TrieNode* node, string curr);
