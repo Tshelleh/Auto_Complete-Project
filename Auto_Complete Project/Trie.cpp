@@ -169,20 +169,20 @@ vector<string> Trie::bfsSearch(string prefix) {
 
     return suggestions;
 }
-void Trie::Delete(string Word) {
-    stack<pair<TrieNode*, char>> word1;
+bool Trie::Delete(string Word) {
+    if (!isFind(Word)) return false;
+    stack<pair<TrieNode*, char>> wordStack;
     TrieNode* ptr = root;
     for (char c : Word) {
-        word1.push({ ptr, c }); // push words letter in stack  
+        wordStack.push({ ptr, c }); // push words letter in stack  
         ptr = ptr->children[c]; // move the ptr from root to the letter added until last letter
     }
-
-    while (!word1.empty()) {
-        TrieNode* ptr2 = word1.top().first; // pre last elememt as the parent
-        char c = word1.top().second; // last element as the child
+    while (!wordStack.empty()) {
+        TrieNode* ptr2 = wordStack.top().first; // pre last elememt as the parent
+        char c = wordStack.top().second; // last element as the child
         ptr = ptr2;
         ptr = ptr->children[c]; // point to last letter in stack
-        word1.pop();
+        wordStack.pop();
         if (ptr->children.empty() && !ptr->endOfWord) {
 
             ptr->children.erase(c); // delete letters child that has no children
@@ -192,9 +192,11 @@ void Trie::Delete(string Word) {
             break;
         }
     }
+    return true;
 }
 void Trie::trieMenu() {
     int choice , freq;
+    char again;
     cout << "1: Search\n"
         "2: Display Dectionary\n"
         "3: Delete word\n"
@@ -214,7 +216,8 @@ void Trie::trieMenu() {
         word_prefix = "";
         cout << "Enter a word or a prefix to delete\n=>";
         cin >> word_prefix;
-        Delete(word_prefix);
+        if (Delete(word_prefix)) cout << "word deleted successfully";
+        else cout << "deletetion failed word dosent exictes";
         break;
     case 4:
         word_prefix = "";
@@ -226,6 +229,12 @@ void Trie::trieMenu() {
         break;
     default:
         break;
+    }
+    cout << endl << "Do you want to continue? Write 'y' or 'Y' if yes" << endl;
+    cin >> again;
+    if (again == 'y' || again == 'Y')
+    {
+        trieMenu();
     }
 }
 void Trie::searchMenu() {

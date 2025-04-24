@@ -24,7 +24,7 @@ public:
 	~Trie();
 	/*void insert(string Word);*/
 	void insert(string Word, int freq);
-	void Delete(string Word);
+	bool Delete(string Word);
 	vector<pair<string, int>> defaultSearch(string prefix);
 	vector<string> bfsSearch(string prefix);
 	vector<string> bdsSearch(string prefix);
