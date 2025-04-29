@@ -1,7 +1,8 @@
-#include "Trie.h"
+﻿#include "Trie.h"
 #include <sstream>
 #include <stack>
 #include <map>
+#include <functional>
 using namespace std;
 
 TrieNode::TrieNode() {
@@ -66,7 +67,6 @@ void Trie::AllWord(TrieNode* node, string curr, queue<pair<string, int>>& que) {
 TrieNode* Trie::getRoot() {
     return root;
 }
-
 string Trie::highlight(string word) {
     stringstream ss;
     ss << "\033[36m\033[3m" << word << "\033[0m";
@@ -99,44 +99,6 @@ vector<pair<string, int>> Trie::defaultSearch(string prefix) {
     }
     //HandleUnfoundPrefix(prefix);
     return Most_freq;
-}
-TrieNode* Trie::getPrefixNode(string& prefix) {
-    if (prefix == "")
-    {
-        cout << "No matched words" << endl; //We will use it in GUI Insha'allah not here
-        return nullptr;
-    }
-    else{
-        for (char c : prefix) {
-            if (!isalpha(c)) {
-                cout << "Invalid prefix: " << prefix << ". Only alphabetic characters allowed.\n";
-                return nullptr;
-            }
-        }
-
-        string lowerPrefix = prefix;
-        //case sensetive
-        transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
-
-        TrieNode* current = root;
-        for (char c : lowerPrefix) {
-            if (current->children.find(c) == current->children.end()) {
-                return nullptr;
-            }
-            current = current->children[c];
-        }
-    return current;
-    }
-}
-
-void Trie::The_Most_freq_que(vector<pair<string, int>>& Words) {
-    sort(Words.begin(), Words.end(), compare);
-}
-
-bool Trie::compare(pair<string, int> a, pair<string, int> b) {
-    if (a.second == b.second)
-        return a.first < b.first;
-    return a.second > b.second;
 }
 vector<string> Trie::bfsSearch(string prefix) {
     vector<string> suggestions;
@@ -179,6 +141,83 @@ vector<string> Trie::bfsSearch(string prefix) {
 
     return suggestions;
 }
+vector<string> Trie::dfsSearch(string prefix) {
+    vector<string> suggestions;
+    TrieNode* prefixNode = getPrefixNode(prefix);
+    if (!prefixNode) {
+        return suggestions;
+    }
+
+    string lowerPrefix = prefix;
+    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+    // دالة مساعدة للاجتياز باستخدام العودية
+    function<void(TrieNode*, string)> dfsHelper = [&](TrieNode* node, string currentWord) {
+        if (node->endOfWord) {
+            suggestions.push_back(currentWord);
+        }
+
+        // فرز المفاتيح لضمان الترتيب المعجمي
+        vector<char> sortedKeys;
+        for (auto& pair : node->children) {
+            sortedKeys.push_back(pair.first);
+        }
+        sort(sortedKeys.begin(), sortedKeys.end());
+
+        // اجتياز الأطفال بالترتيب
+        for (char key : sortedKeys) {
+            dfsHelper(node->children[key], currentWord + key);
+        }
+        };
+
+    dfsHelper(prefixNode, lowerPrefix);
+
+    // تمييز المطابقة التامة (Exact Match)
+    for (int i = 0; i < suggestions.size(); i++) {
+        if (suggestions[i] == lowerPrefix) {
+            suggestions[i] = highlight(suggestions[i]);
+            break;
+        }
+    }
+
+    return suggestions;
+}
+TrieNode* Trie::getPrefixNode(string& prefix) {
+    if (prefix == "")
+    {
+        cout << "No matched words" << endl; //We will use it in GUI Insha'allah not here
+        return nullptr;
+    }
+    else{
+        for (char c : prefix) {
+            if (!isalpha(c)) {
+                cout << "Invalid prefix: " << prefix << ". Only alphabetic characters allowed.\n";
+                return nullptr;
+            }
+        }
+
+        string lowerPrefix = prefix;
+        //case sensetive
+        transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+        TrieNode* current = root;
+        for (char c : lowerPrefix) {
+            if (current->children.find(c) == current->children.end()) {
+                return nullptr;
+            }
+            current = current->children[c];
+        }
+    return current;
+    }
+}
+void Trie::The_Most_freq_que(vector<pair<string, int>>& Words) {
+    sort(Words.begin(), Words.end(), compare);
+}
+bool Trie::compare(pair<string, int> a, pair<string, int> b) {
+    if (a.second == b.second)
+        return a.first < b.first;
+    return a.second > b.second;
+}
 void Trie::Delete(string Word) {
     if(isFind(Word))
     {
@@ -215,38 +254,43 @@ void Trie::Delete(string Word) {
     }*/
 }
 void Trie::trieMenu() {
-    int choice , freq;
-    cout << "1: Search\n"
-        "2: Display Dectionary\n"
-        "3: Delete word\n"
-        "4: Add word\n"
-        "5: Exit\n"
-        "==> ";
-    cin >> choice;
-    string word_prefix;
-    switch (choice)
+    int choice = 0, freq;
+    while(choice != 5)
     {
-    case 1:
-        searchMenu();
-        break;
-    case 2:
-        //display();
-    case 3:
-        word_prefix = "";
-        cout << "Enter a word or a prefix to delete\n=>";
-        cin >> word_prefix;
-        Delete(word_prefix);
-        break;
-    case 4:
-        word_prefix = "";
-        cout << "Enter the word\n";
-        cin >> word_prefix;
-        cout << "Enter the frequency\n";
-        cin >> freq;
-        insert(word_prefix , freq);
-        break;
-    default:
-        break;
+        cout << "\n"
+            "1: Search\n"
+            "2: Display Dectionary\n"
+            "3: Delete word\n"
+            "4: Add word\n"
+            "5: Exit"
+            "\n"
+            "==> ";
+        cin >> choice;
+        string word_prefix;
+        switch (choice)
+        {
+        case 1:
+            searchMenu();
+            break;
+        case 2:
+            display(root , "");
+        case 3:
+            word_prefix = "";
+            cout << "Enter a word or a prefix to delete\n=>";
+            cin >> word_prefix;
+            Delete(word_prefix);
+            break;
+        case 4:
+            word_prefix = "";
+            cout << "Enter the word\n";
+            cin >> word_prefix;
+            cout << "Enter the frequency\n";
+            cin >> freq;
+            insert(word_prefix, freq);
+            break;
+        default:
+            break;
+        }
     }
 }
 void Trie::searchMenu() {
@@ -255,6 +299,7 @@ void Trie::searchMenu() {
     cin >> prefix;
     int choice;
     vector<pair<string, int>> temp;
+    vector<string> temp2;
     cout << "1: Default Search\n"
         "2: BFS Search\n"
         "3: DFS Search\n";
@@ -270,10 +315,15 @@ void Trie::searchMenu() {
             }*/
             break;
         case 2:
-            bfsSearch(prefix);
+            temp2 = bfsSearch(prefix);
+            for (string s : temp2)
+                cout << s << endl;
             break;
         case 3:
-            //dfsSearch();
+            temp2 = dfsSearch(prefix);
+            for (string s : temp2)
+                cout << s << endl;
+            break;
         default:
             cout << "Enter a valid number";
     }
@@ -314,6 +364,4 @@ bool Trie::isFind(string word) {
 //    //correctPart.push_back(c);
 //    //return correctPart;
 //}
-
-
  //we will increase the frequency if the user enter a complete word & if he choose the word from the suggetions
