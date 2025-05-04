@@ -11,7 +11,6 @@ int main()
 	
 	t.trieMenu();
 	cout << endl;
-	/*fileFunctions::WriteFile("Dictionary.txt",t);*/
+	fileFunctions::WriteFile("Dictionary.txt",t);
 	return 0;
 }
-

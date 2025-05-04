@@ -141,6 +141,9 @@ vector<string> Trie::bfsSearch(string prefix) {
 
     return suggestions;
 }
+
+
+
 vector<string> Trie::dfsSearch(string prefix) {
     vector<string> suggestions;
     TrieNode* prefixNode = getPrefixNode(prefix);
@@ -151,20 +154,17 @@ vector<string> Trie::dfsSearch(string prefix) {
     string lowerPrefix = prefix;
     transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
 
-    // دالة مساعدة للاجتياز باستخدام العودية
     function<void(TrieNode*, string)> dfsHelper = [&](TrieNode* node, string currentWord) {
         if (node->endOfWord) {
             suggestions.push_back(currentWord);
         }
 
-        // فرز المفاتيح لضمان الترتيب المعجمي
         vector<char> sortedKeys;
         for (auto& pair : node->children) {
             sortedKeys.push_back(pair.first);
         }
         sort(sortedKeys.begin(), sortedKeys.end());
 
-        // اجتياز الأطفال بالترتيب
         for (char key : sortedKeys) {
             dfsHelper(node->children[key], currentWord + key);
         }
@@ -172,7 +172,6 @@ vector<string> Trie::dfsSearch(string prefix) {
 
     dfsHelper(prefixNode, lowerPrefix);
 
-    // تمييز المطابقة التامة (Exact Match)
     for (int i = 0; i < suggestions.size(); i++) {
         if (suggestions[i] == lowerPrefix) {
             suggestions[i] = highlight(suggestions[i]);
@@ -274,19 +273,19 @@ void Trie::trieMenu() {
             break;
         case 2:
             display(root , "");
+            break;
         case 3:
             word_prefix = "";
             cout << "Enter a word or a prefix to delete\n=>";
             cin >> word_prefix;
+            //cout << "Do you mean: " << HandleUnfoundPrefix(word_prefix);
             Delete(word_prefix);
             break;
         case 4:
             word_prefix = "";
             cout << "Enter the word\n";
             cin >> word_prefix;
-            cout << "Enter the frequency\n";
-            cin >> freq;
-            insert(word_prefix, freq);
+            insert(word_prefix, 1);
             break;
         default:
             break;
@@ -332,36 +331,37 @@ bool Trie::isFind(string word) {
     TrieNode* node = getPrefixNode(word);
     return node && node->endOfWord; //if the returned ptr not null & the node is an end of word
 }
-//string Trie::HandleUnfoundPrefix(string str) {
-//    TrieNode* current = root;
-//    string correctPart = "";//the correct part from the word that the user has entered 
-//    for (char c : str) {
-//        if (current->children.find(c) == current->children.end()) {
-//            current = getPrefixNode(correctPart);
-//            if (correctPart == "") {
-//                cout << "No matched words\n";
-//                map<string, int> temp;//We want to find a way to send this map to the main 
-//                temp[str]++;
-//            }
-//            /*
-//            if we reached to a non - found letter
-//            we get the node of the correct part then break
-//            */
-//            break;
-//        }
-//        else {
-//            correctPart.push_back(c);
-//            //current = current->children[c];
-//        }
-//    }
-//    if (current->children.empty() || !current) //if there is no remind children retuen the string
-//        //return defaultSearch(correctPart).begin()->first;
-//        return correctPart;
-//
-//    //auto firstChild = current->children.begin();
-//    ////I take this to be able to reach the key character & then add it to the correctPart
-//    //char c = firstChild->first;
-//    //correctPart.push_back(c);
-//    //return correctPart;
-//}
+string Trie::HandleUnfoundPrefix(string str) {
+    TrieNode* current = root;
+    string correctPart = "";//the correct part from the word that the user has entered 
+    for (char c : str) {
+        if (current->children.find(c) == current->children.end()) {
+            if (correctPart == "") {
+                cout << "No matched words\n";
+                map<string, int> temp;//We want to find a way to send this map to the main 
+                temp[str]++;
+            }
+            else
+                current = getPrefixNode(correctPart);
+            /*
+            if we reached to a non - found letter
+            we get the node of the correct part then break
+            */
+            break;
+        }
+        else {
+            correctPart.push_back(c);
+            current = current->children[c];
+        }
+    }
+    if (current->children.empty() || !current) //if there is no remind children retuen the string
+        //return defaultSearch(correctPart).begin()->first;
+        return correctPart;
+
+    auto firstChild = current->children.begin();
+    //I take this to be able to reach the key character & then add it to the correctPart
+    char c = firstChild->first;
+    correctPart.push_back(c);
+    return correctPart;
+}
  //we will increase the frequency if the user enter a complete word & if he choose the word from the suggetions
