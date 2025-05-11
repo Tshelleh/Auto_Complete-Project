@@ -196,71 +196,8 @@ bool Trie::Delete(string Word) {
     }
     return true;
 }
-void Trie::trieMenu() {
-    int choice , freq;
-    char again;
-    cout << "1: Search\n"
-        "2: Display Dectionary\n"
-        "3: Delete word\n"
-        "4: Add word\n"
-        "5: Exit\n"
-        "==> ";
-    cin >> choice;
-    string word_prefix;
-    switch (choice)
-    {
-    case 1:
-        searchMenu();
-        break;
-    case 2:
-        //display();
-    case 3:
-        word_prefix = "";
-        cout << "Enter a word or a prefix to delete\n=>";
-        cin >> word_prefix;
-        if (Delete(word_prefix)) cout << "word deleted successfully";
-        else cout << "deletetion failed word dosent exictes";
-        break;
-    case 4:
-        word_prefix = "";
-        cout << "Enter the word\n";
-        cin >> word_prefix;
-        cout << "Enter the frequency\n";
-        cin >> freq;
-        insert(word_prefix , freq);
-        break;
-    default:
-        break;
-    }
-    /*cout << endl << "Do you want to continue? Write 'y' or 'Y' if yes" << endl;
-    cin >> again;
-    if (again == 'y' || again == 'Y')
-    {
-        trieMenu();
-    }*/
-}
-void Trie::searchMenu() {
-    string prefix;
-    cout << "Start Search:....";
-    cin >> prefix;
-    int choice;
-    cout << "1: Default Search\n"
-        "2: BFS Search"
-        "3: DFS Search";
-    cin >> choice;
-    switch (choice) 
-    {
-        //We have to put error hundling method here before take send the prefix as a parameter
-        case 1:
-            defaultSearch(prefix);
-        case 2:
-            bfsSearch(prefix);
-        case 3:
-            //dfsSearch();
-        default:
-            cout << "Enter a valid number";
-    }
-}
+
+
 bool Trie::isFind(string word) {
     TrieNode* node = getPrefixNode(word);
     return node && node->endOfWord; //if the returned ptr not null & the node is an end of word
