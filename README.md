@@ -31,38 +31,40 @@ Auto-save changes to file ✔ Case-insensitive matching – Works with "Car", "C
 └── README.md # This file
 
 Entering a Prefix Enter a prefix: ca Choose sorting method:
-
-Frequency (default)
-
-Shortest-first (BFS)
-
-Lexicographical (DFS) => 2
-Output: car cat care cart
+- Frequency (default)
+- Shortest-first (BFS)
+- Lexicographical (DFS) => 2
+ 
+Output:
+car cat care cart
 
 Adding/Deleting Words Options:
+- Search suggestions
+- Add a word
+- Delete a word
 
-Search suggestions
-
-Add a word
-
-Delete a word
-
-2 Enter word to add: coffee "coffee" added successfully!
+2 Enter word to add:
+coffee "coffee"
+added successfully!
 
 🔧 Extending the Project
 
 GUI Integration: Use Qt or ImGui for a graphical interface.
 Persistent Frequency Tracking: Store word frequencies in a file.
 Multilingual Support: Extend for non-English characters.
+
 🤝 Contributers
+- Gehad Ebrahim
+- Tassnim Shellah
+- Habiba Osama
+- Lina Hisham
+- Dalia Ahmed
+- Sondos Khalid
+- Sara Mohsen
 
-Gehad Ebrahim
-Tassnim Shellah
-Habiba Osama
-Lina Hisham
-Dalia Ahmed
-Sondos Khalid
-Sara Mohsen
 ⭐ Star this repo if you find it useful! 🔗 Share with others who might benefit!
-
-🔍 Why Trie? The Trie data structure is ideal for auto-complete because: ✅ Fast prefix searches – O(L) where L is the length of the prefix. ✅ Memory-efficient – Shares common prefixes among words. ✅ Scalable – Handles large dictionaries efficiently.
+🔍 Why Trie?
+The Trie data structure is ideal for auto-complete because: 
+- ✅ Fast prefix searches – O(L) where L is the length of the prefix.
+- ✅ Memory-efficient – Shares common prefixes among words.
+- ✅ Scalable – Handles large dictionaries efficiently.
