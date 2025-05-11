@@ -5,21 +5,22 @@
 #include<queue>
 #include<stack>
 using namespace std;
+
 class TrieNode
 {
 public:
 	unordered_map <char, TrieNode*> children;
 	bool endOfWord;
-	int FrequencyWord;
 	TrieNode();
 	~TrieNode();
+	int FrequencyWord;
 };
 
 class Trie
 {
-
 	TrieNode* root;
 public:
+	map<string, int > searchedWords;
 	Trie();
 	~Trie();
 	/*void insert(string Word);*/
@@ -38,6 +39,7 @@ public:
 	void trieMenu();
 	void searchMenu();
 	bool isFind(string);
-	string HandleUnfoundPrefix(string);
+	void displaySuggestions(vector<string>);
+	//string HandleUnfoundPrefix(string);
 };
 

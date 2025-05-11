@@ -135,6 +135,14 @@
     <ClInclude Include="fileFunctions.h" />
     <ClInclude Include="Trie.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Dictionary.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+    <Text Include="Searched Words.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

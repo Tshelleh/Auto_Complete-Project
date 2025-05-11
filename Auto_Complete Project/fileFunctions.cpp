@@ -21,6 +21,18 @@
 		cout << "Can not find file\n";
 	}
 }
+
+ void fileFunctions::WriteFile(string filePath, map<string, int> searchedWords) {
+	 ofstream file(filePath);
+	 if (file.is_open()) {
+		 for (auto& word : searchedWords) {
+			 file << word.first << " " << word.second << endl;
+		 }
+		 file.close();
+	 }
+	 else
+		 cout << "Can not find the file\n";
+ }
  Trie fileFunctions::ReadFile(string FileName) {
 	Trie diction;
 

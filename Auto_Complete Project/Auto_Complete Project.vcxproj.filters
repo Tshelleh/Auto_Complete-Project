@@ -33,4 +33,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Searched Words.txt" />
+    <Text Include="Dictionary.txt" />
+  </ItemGroup>
 </Project>

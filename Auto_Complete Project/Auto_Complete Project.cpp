@@ -7,10 +7,10 @@ using namespace std;
 
 int main()
 {
-	Trie t = fileFunctions::ReadFile("Dictionary.txt");
-	
-	t.trieMenu();
+	Trie dictionaryWords = fileFunctions::ReadFile("Dictionary.txt");
+	dictionaryWords.trieMenu();
 	cout << endl;
-	fileFunctions::WriteFile("Dictionary.txt",t);
+	fileFunctions::WriteFile("Dictionary.txt", dictionaryWords);
+	fileFunctions::WriteFile("Searched Words.txt", dictionaryWords.searchedWords);
 	return 0;
 }
