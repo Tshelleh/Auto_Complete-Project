@@ -127,14 +127,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppStart.cpp" />
     <ClCompile Include="Auto_Complete Project.cpp" />
     <ClCompile Include="fileFunctions.cpp" />
     <ClCompile Include="Trie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppStart.h" />
     <ClInclude Include="fileFunctions.h" />
     <ClInclude Include="Trie.h" />
   </ItemGroup>
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <Text Include="Dictionary.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+    <Text Include="Searched_Words.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </Text>
+  </ItemGroup>
+>>>>>>> Stashed changes
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

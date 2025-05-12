@@ -1,5 +1,9 @@
 #include "Trie.h"
 #include <sstream>
+#include <stack>
+#include <map>
+#include <functional>
+#include<conio.h>
 using namespace std;
 
 TrieNode::TrieNode() {
@@ -17,19 +21,8 @@ Trie::~Trie() {
     delete root;
     root = nullptr;
 }
-//void Trie::insert(string Word) {
-//  transform(Word.begin(), Word.end(), Word.begin(), ::tolower);
-//	TrieNode* current = root;
-//
-//	for (char c : Word) {
-//		if (!current->children[c])
-//			current->children[c] = new TrieNode();
-//
-//		current = current->children[c];
-//	}
-//	current->endOfWord = true;
-//	current->FrequencyWord++;
-//}
+
+// Add new word to th dictionary
 void Trie::insert(string Word, int freq) {
 
     transform(Word.begin(), Word.end(), Word.begin(), ::tolower);
@@ -42,8 +35,11 @@ void Trie::insert(string Word, int freq) {
         current = current->children[c];
     }
     current->endOfWord = true;
-    current->FrequencyWord += freq;
+    current->FrequencyWord += freq;//freq must be in search also. her the freq for insert word from file in trie  and manual adding
+    
 }
+
+//// display all word in the dictionary only
 void Trie::display(TrieNode* node, string curr) {
     if (node->endOfWord) {
         string str = curr + " " + to_string(node->FrequencyWord);
@@ -53,6 +49,8 @@ void Trie::display(TrieNode* node, string curr) {
         display(pair.second, curr + pair.first);
     }
 }
+
+// display all word in the dictionary and return queue
 void Trie::AllWord(TrieNode* node, string curr, queue<pair<string, int>>& que) {
     if (node->endOfWord) {
         que.push({ curr, node->FrequencyWord });
@@ -61,157 +59,75 @@ void Trie::AllWord(TrieNode* node, string curr, queue<pair<string, int>>& que) {
         AllWord(pair.second, curr + pair.first, que);
     }
 }
+
+//get root node
 TrieNode* Trie::getRoot() {
     return root;
 }
 
-string Trie::highlight(string word) {
-    stringstream ss;
-    ss << "\033[36m\033[3m" << word << "\033[0m";
-    std::string str = ss.str();
-    return str;
-}
-vector<pair<string, int>> Trie::defaultSearch(string prefix) {
-    vector<pair<string, int>> Most_freq;
-    TrieNode* prefixNode = getPrefixNode(prefix);
-    if (!prefixNode) {
-        return Most_freq;
+// helper function for all search methods (get the prefix node)
+TrieNode* Trie::getPrefixNode(string& prefix) {
+    if (prefix == "")
+    {
+        cout << "No matched words" << endl; //We will use it in GUI Insha'allah not here
+        return nullptr;
     }
-    string lowerPrefix = prefix;
-    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
-
-    queue<pair<string, int>> q;
-    AllWord(prefixNode, lowerPrefix, q);
-    while (!q.empty()) {
-        Most_freq.push_back({ q.front().first,q.front().second });
-        q.pop();
-    }
-    The_Most_freq_que(Most_freq);
-
-    // Added snippet before return
-    for (int i = 0; i < Most_freq.size(); i++) {
-        if (Most_freq[i].first == prefix) {
-            Most_freq[i].first = highlight(Most_freq[i].first);
-            break;
-        }
-    }
-
-    return Most_freq;
-}TrieNode* Trie::getPrefixNode(string& prefix) {
-    for (char c : prefix) {
-        if (!isalpha(c)) {
-            cout << "Invalid prefix: " << prefix << ". Only alphabetic characters allowed.\n";
-            return nullptr;
-        }
-    }
-
-    string lowerPrefix = prefix;
-    //case sensetive
-    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
-
-    TrieNode* current = root;
-    for (char c : lowerPrefix) {
-        if (current->children.find(c) == current->children.end()) {
-            return nullptr;
-        }
-        current = current->children[c];
-    }
-    return current;
-}
-
-void Trie::The_Most_freq_que(vector<pair<string, int>>& Words) {
-    sort(Words.begin(), Words.end(), compare);
-}
-
-bool Trie::compare(pair<string, int> a, pair<string, int> b) {
-    if (a.second == b.second)
-        return a.first < b.first;
-    return a.second > b.second;
-}
-vector<string> Trie::bfsSearch(string prefix) {
-    vector<string> suggestions;
-
-    TrieNode* prefixNode = getPrefixNode(prefix);
-    if (!prefixNode) {
-        return suggestions;
-    }
-
-    string lowerPrefix = prefix;
-    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
-
-    queue<pair<TrieNode*, string>> q;
-    q.push({ prefixNode, lowerPrefix });
-
-    while (!q.empty()) {
-        auto pair = q.front();
-        TrieNode* current = pair.first;
-        string word = pair.second;
-        q.pop();
-
-        if (current->endOfWord) {
-            suggestions.push_back(word);
-        }
-
-        for (char c = 'a'; c <= 'z'; ++c) {
-            if (current->children.find(c) != current->children.end()) {
-                q.push({ current->children[c], word + c });
+    else{
+        for (char c : prefix) {
+            if (!isalpha(c)) {
+                cout << "Invalid prefix: " << prefix << ". Only alphabetic characters allowed.\n";
+                return nullptr;
             }
         }
-    }
 
-    // Added snippet before return
-    for (int i = 0; i < suggestions.size(); i++) {
-        if (suggestions[i] == prefix) {
-            suggestions[i] = highlight(suggestions[i]);
-            break;
+        string lowerPrefix = prefix;
+        //case sensetive
+        transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+        TrieNode* current = root;
+        for (char c : lowerPrefix) {
+            if (current->children.find(c) == current->children.end()) {
+                return root;
+            }
+            current = current->children[c];
         }
+    return current;
     }
-
-    return suggestions;
 }
-bool Trie::Delete(string Word) {
-    if (!isFind(Word)) return false;
 
-    stack<pair<TrieNode*, char>> wordStack;
-    TrieNode* ptr = root;
-    for (char c : Word) {
-        wordStack.push({ ptr, c }); // push words letter in stack  
-        ptr = ptr->children[c]; // move the ptr from root to the letter added until last letter
-    }
+void Trie::Delete(string Word) {
+    if(isFind(Word))
+    {
+        stack<pair<TrieNode*, char>> wordStack;
+        TrieNode* ptr = root;
+        for (char c : Word) {
+            wordStack.push({ ptr, c }); // push words letter in stack  
+            ptr = ptr->children[c]; // move the ptr from root to the letter added until last letter
+        }
 
     while (!wordStack.empty()) {
-        TrieNode* ptr2 = wordStack.top().first; // pre last elememt as the parent
+        TrieNode* ptr2 = wordStack.top().first; // pre last element as the parent
         char c = wordStack.top().second; // last element as the child
         ptr = ptr2;
         ptr = ptr->children[c]; // point to last letter in stack
         wordStack.pop();
         if (ptr->children.empty() && !ptr->endOfWord) {
 
-            ptr->children.erase(c); // delete letters child that has no children
-        }
-        else {
-            ptr->endOfWord = false;
-            break;
+                ptr->children.erase(c); // delete letters child that has no children
+            }
+            else {
+                ptr->endOfWord = false;
+                break;
+            }
         }
     }
-    return true;
+    else {
+        cout << "The word is not found\n";
+    }
 }
-
-
+//helper function for delete function
+//it return true if the exactly word is found
 bool Trie::isFind(string word) {
     TrieNode* node = getPrefixNode(word);
-    return node && node->endOfWord; //if the returned ptr not null & the node is an end of word
+    return node && node->endOfWord; //if the returned ptr not null & the node is an end of word;
 }
-
-void Trie::handleNotFoundPrefix(string word) {
-    transform(word.begin(), word.end(), word.begin(), ::tolower);
-    searchCount[word]++;
-
-    if (searchCount[word] == 3) {
-        insert(word, 1);
-        cout << word << "added to suggestions after 3 searches!\n";
-    }
-}
-//vector<string> Trie::dfsSearch(string prefix) {
-//	return vector<string> v = {};
-//}

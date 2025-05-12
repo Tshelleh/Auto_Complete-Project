@@ -5,15 +5,15 @@
 
 
 
- /*void fileFunctions::WriteFile(string FileName,Trie diction) {
 
-	 ofstream file(FileName);
+ void fileFunctions::WriteFile(string FileName,Trie diction) {
+
+	ofstream file(FileName);
 	if(file.is_open()){
-		queue<string> que;
+		queue<pair<string,int>> que;
 			diction.AllWord(diction.getRoot(), "", que);
 			while (!que.empty()) {
-				cout << que.front()<<endl;
-				file << que.front()<<endl;
+				file << que.front().first<< " " << que.front().second << endl;
 				que.pop();
 			}
 			file.close();
@@ -21,7 +21,8 @@
 	else {
 		cout << "Can not find file\n";
 	}
-}*/
+}
+
  Trie fileFunctions::ReadFile(string FileName) {
 	Trie diction;
 
@@ -36,7 +37,7 @@
 		file.close();
 	}
 	else  {
-		/*WriteFile(FileName,{});*/
+		WriteFile(FileName,{});
 	}
 	return diction;
 }

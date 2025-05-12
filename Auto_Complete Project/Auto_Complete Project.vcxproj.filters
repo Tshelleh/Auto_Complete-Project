@@ -24,6 +24,9 @@
     <ClCompile Include="Trie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AppStart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fileFunctions.h">
@@ -32,5 +35,15 @@
     <ClInclude Include="Trie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AppStart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <Text Include="Searched_Words.txt" />
+    <Text Include="Dictionary.txt" />
+  </ItemGroup>
+>>>>>>> Stashed changes
 </Project>

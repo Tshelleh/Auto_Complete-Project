@@ -1,10 +1,24 @@
-program 12
+program 13
 progress 85
 project 97
-promotion 0
+promotion 1
 prototype 30
+<<<<<<< Updated upstream
 process 100
+=======
+process 103
+proceed 40
+>>>>>>> Stashed changes
 priority 17
 problem 65
 prediction 5
+<<<<<<< Updated upstream
 proceed 40
+=======
+pe 3
+cat 45
+care 20
+Yes 1
+new 4
+
+>>>>>>> Stashed changes

@@ -1,10 +1,14 @@
 #include<iostream>
-#include "Trie.h"
+#include<map>
+#include"Trie.h"
+//#include"AppStart.h"
+#include<string>
+
 class fileFunctions
 {
 public:
-	/*static void WriteFile(string FileName, Trie diction);*/
-	static  Trie ReadFile(string FileName);
+	static void WriteFile(string filePath, Trie diction);
+	static  Trie ReadFile(string filePath);
 	static vector<string> split(const string str);
 };
 
