@@ -20,22 +20,9 @@ Trie::~Trie() {
     delete root;
     root = nullptr;
 }
-//void Trie::insert(string Word) {
-//  transform(Word.begin(), Word.end(), Word.begin(), ::tolower);
-//	TrieNode* current = root;
-//
-//	for (char c : Word) {
-//		if (!current->children[c])
-//			current->children[c] = new TrieNode();
-//
-//		current = current->children[c];
-//	}
-//	current->endOfWord = true;
-//	current->FrequencyWord++;
-//}
+
 void Trie::insert(string Word, int freq) {
 
-    transform(Word.begin(), Word.end(), Word.begin(), ::tolower);
     TrieNode* current = root;
 
     for (char c : Word) {
@@ -45,7 +32,7 @@ void Trie::insert(string Word, int freq) {
         current = current->children[c];
     }
     current->endOfWord = true;
-    current->FrequencyWord += freq;
+    current->FrequencyWord += freq;//freq must be in search
 }
 void Trie::display(TrieNode* node, string curr) {
     if (node->endOfWord) {
@@ -98,6 +85,36 @@ vector<pair<string, int>> Trie::defaultSearch(string prefix) {
         }
     }
     return Most_freq;
+}TrieNode* Trie::getPrefixNode(string& prefix) {
+    for (char c : prefix) {
+        if (!isalpha(c)) {
+            cout << "Invalid prefix: " << prefix << ". Only alphabetic characters allowed.\n";
+            return nullptr;
+        }
+    }
+
+    string lowerPrefix = prefix;
+    //case sensetive
+    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+    TrieNode* current = root;
+    for (char c : lowerPrefix) {
+        if (current->children.find(c) == current->children.end()) {
+            return nullptr;
+        }
+        current = current->children[c];
+    }
+    return current;
+}
+
+void Trie::The_Most_freq_que(vector<pair<string, int>>& Words) {
+    sort(Words.begin(), Words.end(), compare);
+}
+
+bool Trie::compare(pair<string, int> a, pair<string, int> b) {
+    if (a.second == b.second)
+        return a.first < b.first;
+    return a.second > b.second;
 }
 vector<string> Trie::bfsSearch(string prefix) {
     vector<string> suggestions;
@@ -223,13 +240,13 @@ void Trie::Delete(string Word) {
             ptr = ptr->children[c]; // move the ptr from root to the letter added until last letter
         }
 
-        while (!word1.empty()) {
-            TrieNode* ptr2 = word1.top().first; // pre last elememt as the parent
-            char c = word1.top().second; // last element as the child
-            ptr = ptr2;
-            ptr = ptr->children[c]; // point to last letter in stack
-            word1.pop();
-            if (ptr->children.empty() && !ptr->endOfWord) {
+    while (!wordStack.empty()) {
+        TrieNode* ptr2 = wordStack.top().first; // pre last element as the parent
+        char c = wordStack.top().second; // last element as the child
+        ptr = ptr2;
+        ptr = ptr->children[c]; // point to last letter in stack
+        wordStack.pop();
+        if (ptr->children.empty() && !ptr->endOfWord) {
 
                 ptr->children.erase(c); // delete letters child that has no children
             }
