@@ -5,48 +5,39 @@
 
 
 
- void fileFunctions::WriteFile(string FileName,Trie diction) {
+
+void fileFunctions::WriteFile(string FileName, Trie diction) {
 
 	ofstream file(FileName);
-	if(file.is_open()){
-		queue<pair<string,int>> que;
-			diction.AllWord(diction.getRoot(), "", que);
-			while (!que.empty()) {
-				file << que.front().first<< " " << que.front().second << endl;
-				que.pop();
-			}
-			file.close();
-    }
+	if (file.is_open()) {
+		queue<pair<string, int>> que;
+		diction.AllWord(diction.getRoot(), "", que);
+		while (!que.empty()) {
+			file << que.front().first << " " << que.front().second << endl;
+			que.pop();
+		}
+		file.close();
+	}
 	else {
 		cout << "Can not find file\n";
 	}
 }
 
- void fileFunctions::WriteFile(string filePath, map<string, int> searchedWords) {
-	 ofstream file(filePath);
-	 if (file.is_open()) {
-		 for (auto& word : searchedWords) {
-			 file << word.first << " " << word.second << endl;
-		 }
-		 file.close();
-	 }
-	 else
-		 cout << "Can not find the file\n";
- }
- Trie fileFunctions::ReadFile(string FileName) {
+Trie fileFunctions::ReadFile(string FileName) {
 	Trie diction;
 
-		ifstream file(FileName);
+
+	ifstream file(FileName);
 	if (file.is_open()) {
 		string line;
 		while (getline(file, line)) {
 			vector<string> splitStr = split(line);
-			diction.insert(splitStr[0],stoi(splitStr[1]));
+			diction.insert(splitStr[0], stoi(splitStr[1]));
 		}
 		file.close();
 	}
-	else  {
-		/*WriteFile(FileName,{});*/
+	else {
+		WriteFile(FileName, {});
 	}
 	return diction;
 }
@@ -57,6 +48,6 @@ vector<string> fileFunctions::split(const string str) {
 	while (ss >> part) {
 		splitStr.push_back(part);
 	}
-	
+
 	return splitStr;
 }

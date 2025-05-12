@@ -9,5 +9,6 @@ proceed 40
 priority 17
 prediction 5
 cat 45
-care 20
+car 3
+care 21
 teeth 1

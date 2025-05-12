@@ -127,11 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AppStart.cpp" />
     <ClCompile Include="Auto_Complete Project.cpp" />
     <ClCompile Include="fileFunctions.cpp" />
     <ClCompile Include="Trie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppStart.h" />
     <ClInclude Include="fileFunctions.h" />
     <ClInclude Include="Trie.h" />
   </ItemGroup>
