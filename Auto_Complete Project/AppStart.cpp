@@ -118,7 +118,9 @@ vector<string> AppStart::bfsSearch(string prefix) {
     return suggestions;
 }
 
-// search using dfs
+/*
+search using dfs
+
 vector<string> AppStart::dfsSearch(string prefix) {
     vector<string> suggestions;
     TrieNode* prefixNode = dictionaryWords.getPrefixNode(prefix);
@@ -164,8 +166,9 @@ vector<string> AppStart::dfsSearch(string prefix) {
 
     return suggestions;
 }
-/*
-#Enhanced DFS search method
+*/
+
+// #Enhanced DFS search method
 vector<string> AppStart::dfsSearch(string prefix) {
     vector<string> suggestions;
     TrieNode* prefixNode = dictionaryWords.getPrefixNode(prefix);
@@ -206,7 +209,7 @@ vector<string> AppStart::dfsSearch(string prefix) {
 
     return suggestions;
 }
-*/
+
 //this function for detail with un founding entered word 
 //it count  the frequency and add word automatically to the dictionary if freq =3
 void AppStart::AddAuto(string word) {
