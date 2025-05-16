@@ -164,7 +164,49 @@ vector<string> AppStart::dfsSearch(string prefix) {
 
     return suggestions;
 }
+/*
+#Enhanced DFS search method
+vector<string> AppStart::dfsSearch(string prefix) {
+    vector<string> suggestions;
+    TrieNode* prefixNode = dictionaryWords.getPrefixNode(prefix);
 
+    if (!prefixNode || prefixNode == dictionaryWords.getRoot()) {
+        cout << "Not found\n";
+        return suggestions;
+    }
+
+    string lowerPrefix = prefix;
+    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
+
+    stack<pair<TrieNode*, string>> dfsStack;
+    dfsStack.push({ prefixNode, lowerPrefix });
+
+    while (!dfsStack.empty()) {
+        auto stackTopWord = dfsStack.top(); //first =>  node , second => currentWord
+        dfsStack.pop();
+
+        if (stackTopWord.first ->endOfWord) {
+            suggestions.push_back(stackTopWord.second);
+        }
+
+        for (char c = 'z'; c >= 'a'; --c) {
+            if (stackTopWord.first ->children.count(c)) {
+                dfsStack.push({ stackTopWord.first->children[c], stackTopWord.second + c });
+            }
+        }
+    }
+
+    for (int i = 0; i < suggestions.size(); i++) {
+        if (suggestions[i] == lowerPrefix) {
+            suggestions[i] = highlight(suggestions[i]);
+            prefixNode->FrequencyWord++;  // Increase frequency for exact match
+            break;
+        }
+    }
+
+    return suggestions;
+}
+*/
 //this function for detail with un founding entered word 
 //it count  the frequency and add word automatically to the dictionary if freq =3
 void AppStart::AddAuto(string word) {
