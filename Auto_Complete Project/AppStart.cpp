@@ -116,7 +116,7 @@ vector<string> AppStart::bfsSearch(string prefix) {
 }
 
 //GEHAD BFS
- 
+
 //vector<string> AppStart::bfsSearch(string prefix) {
 //    //Initailize elements 
 //    TrieNode* prefixNode = dictionaryWords.getPrefixNode(prefix);
@@ -158,7 +158,7 @@ vector<string> AppStart::bfsSearch(string prefix) {
 //}
 
 // Search Using DFS
- 
+
 //vector<string> AppStart::dfsSearch(string prefix) {
 //    vector<string> suggestions;
 //    TrieNode* prefixNode = dictionaryWords.getPrefixNode(prefix);
@@ -262,13 +262,13 @@ vector<string> AppStart::dfsSearch(string prefix) {
         return suggestions;
     }
     else {
-        dfsStack.push({prefixNode, prefix});
+        dfsStack.push({ prefixNode, prefix });
         while (!dfsStack.empty()) {
             auto currPair = dfsStack.top();
             dfsStack.pop();
             if (currPair.first->endOfWord)
                 suggestions.push_back(currPair.second);
-           
+
 
             for (char c = 'z'; c >= 'a'; c--) {
                 if (currPair.first->children.find(c) != currPair.first->children.end())
@@ -277,12 +277,12 @@ vector<string> AppStart::dfsSearch(string prefix) {
         }
     }
     for (int i = 0; i < suggestions.size(); i++) {
-                if (suggestions[i] == prefix) {
-                    suggestions[i] = highlight(suggestions[i]);
-                    prefixNode->FrequencyWord++;  // Increase frequency for exact match
-                    break;
-                }
-            }
+        if (suggestions[i] == prefix) {
+            suggestions[i] = highlight(suggestions[i]);
+            prefixNode->FrequencyWord++;  // Increase frequency for exact match
+            break;
+        }
+    }
     return suggestions;
 }
 
