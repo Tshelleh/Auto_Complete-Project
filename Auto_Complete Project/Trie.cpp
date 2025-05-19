@@ -22,10 +22,10 @@ Trie::~Trie() {
     root = nullptr;
 }
 
-// Add new word to th dictionary
+// Add new word to the dictionary
 void Trie::insert(string Word, int freq) {
-
-    transform(Word.begin(), Word.end(), Word.begin(), ::tolower);
+    string lowerPrefix = Word;
+    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
     TrieNode* current = root;
 
     for (char c : Word) {
@@ -40,9 +40,9 @@ void Trie::insert(string Word, int freq) {
 }
 
 //// display all word in the dictionary only
-void Trie::display(TrieNode* node, string curr) {
+void Trie::display(TrieNode* node, string curr) { //index  => to diplay it with numbers 
     if (node->endOfWord) {
-        string str = curr + " " + to_string(node->FrequencyWord);
+        string str = curr;
         cout << str << endl;
     }
     for (auto& pair : node->children) {
@@ -51,12 +51,12 @@ void Trie::display(TrieNode* node, string curr) {
 }
 
 // display all word in the dictionary and return queue
-void Trie::AllWord(TrieNode* node, string curr, queue<pair<string, int>>& que) {
+void Trie::displayQue(TrieNode* node, string curr, queue<pair<string, int>>& que) {
     if (node->endOfWord) {
         que.push({ curr, node->FrequencyWord });
     }
     for (auto& pair : node->children) {
-        AllWord(pair.second, curr + pair.first, que);
+        displayQue(pair.second, curr + pair.first, que);
     }
 }
 
@@ -76,7 +76,7 @@ TrieNode* Trie::getPrefixNode(string& prefix) {
         for (char c : prefix) {
             if (!isalpha(c)) {
                 cout << "Invalid prefix: " << prefix << ". Only alphabetic characters allowed.\n";
-                return nullptr;
+                //return nullptr;
             }
         }
 
@@ -121,12 +121,11 @@ void Trie::Delete(string Word) {
             }
         }
     }
-    else {
-        cout << "The word is not found\n";
-    }
 }
+
 //helper function for delete function
 //it return true if the exactly word is found
+
 bool Trie::isFind(string word) {
     TrieNode* node = getPrefixNode(word);
     return node && node->endOfWord; //if the returned ptr not null & the node is an end of word;

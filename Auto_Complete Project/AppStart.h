@@ -17,5 +17,5 @@ public:
 	void trieMenu();
 	void searchMenu();
 	void displaySuggestions(vector<string>);
-
+	void handelDelete(string);
 };

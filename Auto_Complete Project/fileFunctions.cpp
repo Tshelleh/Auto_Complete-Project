@@ -11,7 +11,7 @@ void fileFunctions::WriteFile(string FileName, Trie diction) {
 	ofstream file(FileName);
 	if (file.is_open()) {
 		queue<pair<string, int>> que;
-		diction.AllWord(diction.getRoot(), "", que);
+		diction.displayQue(diction.getRoot(), "", que);
 		while (!que.empty()) {
 			file << que.front().first << " " << que.front().second << endl;
 			que.pop();
