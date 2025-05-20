@@ -32,7 +32,8 @@ Trie fileFunctions::ReadFile(string FileName) {
 		string line;
 		while (getline(file, line)) {
 			vector<string> splitStr = split(line);
-			diction.insert(splitStr[0], stoi(splitStr[1]));
+			if (splitStr.size() >= 1)
+				diction.insert(splitStr[0], stoi(splitStr[1]));
 		}
 		file.close();
 	}

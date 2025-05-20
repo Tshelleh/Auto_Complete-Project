@@ -24,7 +24,7 @@ public:
 	void insert(string Word, int freq);
 	void Delete(string Word);
 	void display(TrieNode* node, string curr );
-	void displayQue(TrieNode* node, string curr, queue<pair<string, int>>& que);
+	void allWords(TrieNode* node, string curr, queue<pair<string, int>>& que);
 	TrieNode* getRoot();
 	TrieNode* getPrefixNode(string& prefix);
 	bool isFind(string);
