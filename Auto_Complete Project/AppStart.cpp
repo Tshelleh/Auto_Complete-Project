@@ -115,47 +115,6 @@ vector<string> AppStart::bfsSearch(string prefix) {
     return suggestions;
 }
 
-//GEHAD BFS
-
-//vector<string> AppStart::bfsSearch(string prefix) {
-//    //Initailize elements 
-//    TrieNode* prefixNode = dictionaryWords.getPrefixNode(prefix);
-//    queue<pair<TrieNode*, string>> childrenForTheNode;
-//    vector<string> suggestions; 
-//
-//
-//    //Start the BFS 
-//    if (prefixNode == dictionaryWords.getRoot()) { //If the prefixNode is the same the root node this mean the word is not in the dictionary
-//        cout << "Not Found\n";
-//        return suggestions;
-//    }
-//    if (prefixNode) { //If a value reteruned from the getPrefixMethod |Which Is Not NULL|
-//
-//        childrenForTheNode.push({ prefixNode, prefix });
-//        while (!childrenForTheNode.empty()) {
-//            auto currPair = childrenForTheNode.front();
-//            childrenForTheNode.pop();
-//
-//            if (currPair.first->endOfWord)
-//                suggestions.push_back(currPair.second);
-//
-//            for (char c = 'a'; c <= 'z'; c++) {
-//                if (currPair.first->children.find(c) != currPair.first->children.end()) {
-//                    childrenForTheNode.push({ currPair.first->children[c], currPair.second + c });
-//                }
-//            }
-//        }
-//    }
-//    for (int i = 0; i < suggestions.size(); i++) {
-//        if (suggestions[i] == prefix) {
-//            suggestions[i] = highlight(suggestions[i]);
-//            prefixNode->FrequencyWord++;
-//            break;
-//        }
-//    }
-//
-//    return suggestions;
-//}
 
 // Search Using DFS
 
@@ -204,51 +163,6 @@ vector<string> AppStart::bfsSearch(string prefix) {
 //
 //    return suggestions;
 //}
-
-
-
-//vector<string> AppStart::dfsSearch(string prefix) {
-//    vector<string> suggestions;
-//    TrieNode* prefixNode = dictionaryWords.getPrefixNode(prefix);
-//
-//    if (!prefixNode || prefixNode == dictionaryWords.getRoot()) {
-//        cout << "Not found\n";
-//        return suggestions;
-//    }
-//
-//    string lowerPrefix = prefix;
-//    transform(lowerPrefix.begin(), lowerPrefix.end(), lowerPrefix.begin(), ::tolower);
-//
-//    stack<pair<TrieNode*, string>> dfsStack;
-//    dfsStack.push({ prefixNode, lowerPrefix });
-//
-//    while (!dfsStack.empty()) {
-//        auto stackTopWord = dfsStack.top();
-//        dfsStack.pop();
-//
-//        if (stackTopWord.first ->endOfWord) {
-//            suggestions.push_back(stackTopWord.second);
-//        }
-//
-//        for (char c = 'z'; c >= 'a'; --c) {
-//            if (stackTopWord.first ->children.count(c)) {
-//                dfsStack.push({ stackTopWord.first->children[c], stackTopWord.second + c });
-//            }
-//        }
-//    }
-//
-//    for (int i = 0; i < suggestions.size(); i++) {
-//        if (suggestions[i] == lowerPrefix) {
-//            suggestions[i] = highlight(suggestions[i]);
-//            prefixNode->FrequencyWord++;  // Increase frequency for exact match
-//            break;
-//        }
-//    }
-//
-//    return suggestions;
-//}
-
-//Gehad DFS
 
 vector<string> AppStart::dfsSearch(string prefix) {
     vector<string> suggestions;

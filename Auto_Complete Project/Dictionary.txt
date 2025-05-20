@@ -1,6 +1,5 @@
 appel 3
 application 0
-kkkkkkkkkk 0
 cat 46
 car 3
 care 22

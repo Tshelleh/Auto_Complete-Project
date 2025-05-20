@@ -50,13 +50,13 @@ void Trie::display(TrieNode* node, string curr) { //index  => to diplay it with 
     }
 }
 
-// display all word in the dictionary and return queue
-void Trie::displayQue(TrieNode* node, string curr, queue<pair<string, int>>& que) {
+// collect all word in the dictionary and store it in a queue
+void Trie::allWords(TrieNode* node, string curr, queue<pair<string, int>>& que) {
     if (node->endOfWord) {
         que.push({ curr, node->FrequencyWord });
     }
     for (auto& pair : node->children) {
-        displayQue(pair.second, curr + pair.first, que);
+        allWords(pair.second, curr + pair.first, que);
     }
 }
 
